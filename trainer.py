@@ -16,20 +16,8 @@ class Trainer(object):
         self.criterion = nn.CrossEntropyLoss().to(self.device) 
 
     def get_optimizer(self):
-        if self.config.optimizer.lower() == 'adam':
-            optimizer = optim.Adam([param for param in self.model.parameters() if param.requires_grad],
-                                        lr=self.config.lr,
-                                        betas=(self.config.beta1,self.config.beta2),
-                                        weight_decay = self.config.weight_decay,
-                                        )
-        elif self.config.optimizer.lower() == 'sgd':
-            optimizer = optim.SGD([param for param in self.model.parameters() if param.requires_grad],
-                                      lr=self.config.lr,
-                                      momentum=self.config.momentum,
-                                      weight_decay = self.config.weight_decay
-                                        )
-        else:
-            raise ValueError
+        optimizer = optim.Adam([param for param in self.model.parameters() if param.requires_grad],
+                                        lr=self.config.lr)
         return optimizer
 
     def get_history(self,config):
@@ -89,7 +77,6 @@ class Trainer(object):
         torch.save(self.model.state_dict(),os.path.join(self.config.save_root,"%s.pth"%self.config.model_name))
 
     def train(self):
-        print('starting')
         n_epoch = self.config.n_epoch
         max_acc = 0
         for epoch in range(n_epoch):

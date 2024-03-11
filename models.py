@@ -5,6 +5,15 @@ from torchvision import models
 import torch.nn.functional as F
 import numpy as np
 
+class Config:
+    def __init__(self):
+        self.num_class = 21
+        self.mode = 'finetuning'
+        self.img_size = 224
+        self.check_step = 20
+        self.log_path = 'logs/'
+        self.save_root = 'ckpt/'
+        
 class FCN8s_voc(nn.Module):
     def __init__(self, config):
         super(FCN8s_voc, self).__init__()
